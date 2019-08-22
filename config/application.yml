@@ -1,0 +1,13 @@
+coco-api:
+  propiedad: Hola Mundo !!!!
+
+# HTTP Server (Tomcat) Port
+server:
+  servlet:
+    contextPath: /cocoapi
+  port: 9930
+  error:
+    whitelabel:
+      enabled: true
+  tomcat:
+    max-threads: 1
