@@ -16,47 +16,20 @@ pr:
 pool:
   vmImage: 'ubuntu-latest'
 
-jobs:
-- job: setup
-  steps:
-    - task: Gradle@2
-      inputs:
-        workingDirectory: ''
-        gradleWrapperFile: 'gradlew'
-        gradleOptions: '-Xmx3072m'
-        javaHomeOption: 'JDKVersion'
-        jdkVersionOption: '1.8'
-        jdkArchitectureOption: 'x64'
-        publishJUnitResults: true
-        testResultsFiles: '**/TEST-*.xml'
-        tasks: 'build'
-- job: taskA
-  dependsOn: setup
-  steps:
-    - task: Gradle@2
-      inputs:
-        workingDirectory: ''
-        gradleWrapperFile: 'gradlew'
-        gradleOptions: '-Xmx3072m'
-        javaHomeOption: 'JDKVersion'
-        jdkVersionOption: '1.8'
-        jdkArchitectureOption: 'x64'
-        publishJUnitResults: true
-        testResultsFiles: '**/TEST-*.xml'
-        tasks: 'test'
-- job: taskB
-  dependsOn: setup
-  steps:
-    - task: Gradle@2
-      inputs:
-        workingDirectory: ''
-        gradleWrapperFile: 'gradlew'
-        gradleOptions: '-Xmx3072m'
-        javaHomeOption: 'JDKVersion'
-        jdkVersionOption: '1.8'
-        jdkArchitectureOption: 'x64'
-        publishJUnitResults: true
-        testResultsFiles: '**/TEST-*.xml'
-        tasks: 'test'
-
-
+stages:
+- stage: UnitTest
+  jobs:
+  - job: Lote1
+    steps:
+    - script: echo Lote 1!
+  - job: Llote2
+    steps:
+    - script: echo Lote 2!; pwd; date
+  - job: Llote3
+    steps:
+    - script: echo Lote 3!
+- stage: Deploy
+  jobs:
+  - job: Deploy
+    steps:
+    - script: echo Deploying the code!
