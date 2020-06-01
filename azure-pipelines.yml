@@ -21,7 +21,7 @@ stages:
   jobs:
   - job: Prueba
     steps:
-    - script: jq . parameters.json
+    - script: jq .parameters.color parameters.json
 - stage: UnitTest
   jobs:
   - job: Lote1
