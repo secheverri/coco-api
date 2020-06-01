@@ -14,7 +14,7 @@ pr:
     - feature/*
 
 variables:
-  params: value 
+  echovar: value 
 
 pool:
   vmImage: 'ubuntu-latest'
@@ -34,7 +34,7 @@ stages:
     - script: echo $echovar; sleep 2; echovar="Prueba"
   - job: Lote2
     steps:
-    - script: echo $echovar; pwd; date; sleep 1
+    - script: pwd; date; sleep 1
   - job: Lote3
     steps:
     - script: echo Lote 3!; sleep 1
@@ -42,4 +42,4 @@ stages:
   jobs:
   - job: Deploy
     steps:
-    - script: echo Deploying the code!
+    - script: echo $echovar
