@@ -31,7 +31,7 @@ stages:
   jobs:
   - job: Lote1
     steps:
-    - script: echo $(echovar); sleep 2
+    - script: echo "$(echovar)"; sleep 2
   - job: Lote2
     steps:
     - script: echo Lote 2!; pwd; date; sleep 1
