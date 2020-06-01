@@ -1,45 +1,22 @@
-# Gradle
-# Build your Java project and run tests with Gradle using a Gradle wrapper script.
-# Add steps that analyze code, save build artifacts, deploy, and more:
-# https://docs.microsoft.com/azure/devops/pipelines/languages/java
+jobs:
 
-trigger:
-  branches:
-    exclude:
-      - master
-      - develop
-pr:
-  branches:
-    include:
-    - feature/*
+# Set an output variable from job A
+- job: A
+  pool:
+    vmImage: 'vs2017-win2016'
+  steps:
+  - powershell: echo "##vso[task.setvariable variable=myOutputVar;isOutput=true]this is the value"
+    name: setvarStep
+  - script: echo $(setvarStep.myOutputVar)
+    name: echovar
 
-variables:
-  echovar: value 
-
-pool:
-  vmImage: 'ubuntu-latest'
-
-stages:
-- stage: Setup
-  jobs:
-  - job: Prueba
-    steps:
-    - script: echo $(jq -r .parameters.color.value parameters.json)
-      name: echovar
-#    - script: params = jq -r .parameters.color.value parameters.json
-- stage: UnitTest
-  jobs:
-  - job: Lote1
-    steps:
-    - script: echo $echovar; sleep 2; echovar="Prueba"
-  - job: Lote2
-    steps:
-    - script: pwd; date; sleep 1
-  - job: Lote3
-    steps:
-    - script: echo Lote 3!; sleep 1
-- stage: Deploy
-  jobs:
-  - job: Deploy
-    steps:
-    - script: echo $echovar
+# Map the variable into job B
+- job: B
+  dependsOn: A
+  pool:
+    vmImage: 'ubuntu-16.04'
+  variables:
+    myVarFromJobA: $[ dependencies.A.outputs['setvarStep.myOutputVar'] ]
+  steps:
+  - script: echo $(myVarFromJobA)
+    name: echovar
