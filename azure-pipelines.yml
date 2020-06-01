@@ -14,14 +14,14 @@ pr:
     - feature/*
 
 pool:
-  vmImage: 'windows-2019'
+  vmImage: 'ubuntu-latest'
 
 stages:
 - stage: Setup
   jobs:
   - job: Prueba
     steps:
-    - script: Get-Content "parameters.json" | out-string | ConvertFrom-Json
+    - script: apt-get install jq; jq parameters.json
 - stage: UnitTest
   jobs:
   - job: Lote1
