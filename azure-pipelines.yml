@@ -13,6 +13,9 @@ pr:
     include:
     - feature/*
 
+variables:
+  params: value 
+
 pool:
   vmImage: 'ubuntu-latest'
 
@@ -21,7 +24,7 @@ stages:
   jobs:
   - job: Prueba
     steps:
-    - script: jq -r .parameters.color.value parameters.json
+    - script: $params = jq -r .parameters.color.value parameters.json
 - stage: UnitTest
   jobs:
   - job: Lote1
