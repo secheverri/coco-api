@@ -14,18 +14,23 @@ pr:
     - feature/*
 
 pool:
-  vmImage: 'ubuntu-latest'
+  vmImage: 'windows-2019'
 
 stages:
+- stage: Setup
+  jobs:
+  - job: Prueba
+    steps:
+    - script: Get-Content "parameters.json" | out-string | ConvertFrom-Json
 - stage: UnitTest
   jobs:
   - job: Lote1
     steps:
     - script: echo Lote 1!; sleep 20
-  - job: Llote2
+  - job: Lote2
     steps:
     - script: echo Lote 2!; pwd; date; sleep 10
-  - job: Llote3
+  - job: Lote3
     steps:
     - script: echo Lote 3!; sleep 15
 - stage: Deploy
