@@ -3,7 +3,7 @@
   "contentVersion": "1.0.0.0",
   "parameters": {
     "color": {
-      "value": rojo
+      "value": "rojo"
     },
     "letra": {
       "value": "A"
