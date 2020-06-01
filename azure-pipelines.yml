@@ -21,7 +21,7 @@ stages:
   jobs:
   - job: Prueba
     steps:
-    - script: apt-get install jq -y; jq parameters.json
+    - script: sudo apt-get install jq -y; jq parameters.json
 - stage: UnitTest
   jobs:
   - job: Lote1
