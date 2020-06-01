@@ -31,10 +31,10 @@ stages:
   jobs:
   - job: Lote1
     steps:
-    - script: echo "$(echovar)"; sleep 2
+    - script: echo $echovar; sleep 2; echovar="Prueba"
   - job: Lote2
     steps:
-    - script: echo Lote 2!; pwd; date; sleep 1
+    - script: echo $echovar; pwd; date; sleep 1
   - job: Lote3
     steps:
     - script: echo Lote 3!; sleep 1
