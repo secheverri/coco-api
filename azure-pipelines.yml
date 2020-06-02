@@ -15,22 +15,19 @@ pr:
 
 variables:
 - template: simple-param.yml
-
-pool:
-  vmImage: 'ubuntu-latest'
+- name: label
 
 stages:
 - stage: Setup
   jobs:
-  - job: Prueba
+  - job: SetAgent
     steps:
-    - script: echo My favorite vegetable is ${{ variables.param1 }}
-#    - script: params = jq -r .parameters.color.value parameters.json
+    - script: ${{ if eq(variables.appName, "PolicyCenter") }}; then; label='SlavePR'
 - stage: UnitTest
   jobs:
   - job: Lote1
     steps:
-    - script: sleep 2; echovar="Prueba"
+    - script: echo $label; sleep 2; echovar="Prueba"
   - job: Lote2
     steps:
     - script: pwd; date; sleep 1
