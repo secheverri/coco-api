@@ -1,2 +1,66 @@
 variables:
-  param1: 'brussels sprouts'
+  # Configuraciones generales
+  appName: PolicyCenter
+  jdk_gw: Java 1.7
+  jdk_ui: Java 1.8
+  gradle: Gradle 4.6
+  ant: apache-ant-1.8.2
+  unitTests: 5
+  appShortName: pc
+  app_git: policycenter
+  app_run: pcdev
+  rep_mod: policy_center
+  isSoapApi: true
+  isLoadSampleData: true
+  isDictionaryBuild: true
+
+  # Locks despliegue
+  deployCountPdn: 1
+  deployDayPdn: ALL
+  deployStartHourPdn0: 04:20:00
+  deployEndHourPdn0: 04:40:00
+  deployCountUat: 2
+  deployDayUat: ALL
+  deployStartHourUat0: 05:20:00
+  deployEndHourUat0: 05:40:00
+  deployStartHourUat1: 12:00:00
+  deployEndHourUat1: 12:20:00
+
+  # Pruebas de aceptacion
+  aceptanceTestRepo: https://bitbucket.org/suracore/bddcoresura.git
+  thresholdAceptanceTest: 5
+  aceptanceTestRepoProd: https://bitbucket.org/suracore/bddcoresuraproduccion.git
+  thresholdAceptanceTestProd: 1
+
+  # Pruebas de aceptacion DLLO
+  aceptanceTestDllo: 8
+  aceptanceTestDlloProd: 1
+  aceptanceTestBaseUrlDllo: http://dllocoreseguros.suramericana.com.co/pc
+
+  # Pruebas de aceptacion UAT
+  skipFailedTestUat: true
+  aceptanceTestUat: 1
+  aceptanceTestUatProd: 4
+  aceptanceTestBaseUrlUat: http://labcoreseguros.suramericana.com/pc
+
+  # Pruebas de integracion UAT
+  integrationTestUat: true
+  integrationTestUatRepo: https://bitbucket.org/suracore/soapui_integration_tests.git
+  integrationTestUatCommand: if [ ! -d "pc/lab/results" ]; then mkdir pc/lab/results; else rm -f pc/lab/results/*.*; fi;find pc/lab/*.xml -type f -print0 | xargs -0 sed -i 's/<con:endpoint>http:/<con:endpoint>https:/g';ls -1 pc/lab/*.xml | awk '{system ("testrunner.sh -h qacoreseguros.suramericana.com:443 -a -I -j -f pc/lab/results "$1)}'
+
+  # Orden de cambio
+  changeOrderServers: srncswebp01, srncswebp02, srncswebp29, srncswebp30
+  changeOrderBSProccess: Seguros.Administracion salvamentos autos
+  changeOrderInfrastructure: On Premise
+  changeOrderUser: carlmeba
+  changeOrderApprover: carlgavi
+  changeOrderApproverBS: gustpius
+  itemConfiguration: 89B2483C256EDD4C87DE873EB55E1FDD
+
+  # Aprobadores
+  approverDeployLabo: false
+  approversUserTI: santtoal,jhoamope,carlvarn,evanvapa,carlolsa,juanarbe,wilsvemo,luissuza,jhonolve,juanarbt,cesavemr,danimesn,jhonzusa,carlgour,carlmeba,rafabaar,johnraar,jorgsamn,joanpero,yeisgoca,andrcrga,johagagr,yonngapi,kathlooc,yeasorca,jhongoln
+  approversMailTI: santiago.torres@ceiba.com.co,cgomezu@sura.com.co,wevelez@sura.com.co,cesar.velasquez@ceiba.com.co,daniel.mejia@ceiba.com.co,jhon.zuluaga@ceiba.com.co,lsuarezz@sura.com.co,evaloyes@sura.com.co,carlos.olaya@ceiba.com.co,camena@sura.com.co,john.ramirez@ceiba.com.co,jmsaldarriaga@sura.com.co,jperezr@ias.com.co,yeison.gomez@ceiba.com.co,andres.crespo@ceiba.com.co,jdgarciag@sura.com.co,ysgarcia@sura.com.co,katherine.lopez@ingeneo.com.co,yeason.ortiz@ceiba.com.co
+  approversUserBS: juantoto,anamcale,soliagmo,sindcore,monirafr,juanarbe
+  approversMailBS: sagudelo@sura.com.co,amcatano@sura.com.co,scolorado@sura.com.co,mramirez@sura.com.co,jcarango@sura.com.co
+  approversQualityGroups: EMPRESARIALES,AUTOS
