@@ -30,7 +30,7 @@ stages:
   jobs:
   - job: Lote1
     steps:
-    - script:sleep 2; echovar="Prueba"
+    - script: sleep 2; echovar="Prueba"
   - job: Lote2
     steps:
     - script: pwd; date; sleep 1
