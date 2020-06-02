@@ -68,24 +68,48 @@ stages:
     steps:
     - script: ant dev-deploy -f ${{ variables.appName }}/modules/ant/build.xml -Dpath=ic
     - script: ant unit-tests-batch1 -Dpath=ic -f ${{ variables.appName }}/modules/ant/continuous-build.xml
+    - task: PublishTestResults@2
+      inputs:
+        testResultsFormat: 'JUnit'
+        testResultsFiles: 'build/reports/unitarias/raw/batch1/*.xml'
+        testRunTitle: 'Reporte Lote 1'
   - job: Lote2
     timeoutInMinutes: 60
     steps:
     - script: ant dev-deploy -f ${{ variables.appName }}/modules/ant/build.xml -Dpath=ic
     - script: ant unit-tests-batch2 -Dpath=ic -f ${{ variables.appName }}/modules/ant/continuous-build.xml
+    - task: PublishTestResults@2
+      inputs:
+        testResultsFormat: 'JUnit'
+        testResultsFiles: 'build/reports/unitarias/raw/batch2/*.xml'
+        testRunTitle: 'Reporte Lote 2'
   - job: Lote3
     timeoutInMinutes: 60
     steps:
     - script: ant dev-deploy -f ${{ variables.appName }}/modules/ant/build.xml -Dpath=ic
     - script: ant unit-tests-batch3 -Dpath=ic -f ${{ variables.appName }}/modules/ant/continuous-build.xml
+    - task: PublishTestResults@2
+      inputs:
+        testResultsFormat: 'JUnit'
+        testResultsFiles: 'build/reports/unitarias/raw/batch3/*.xml'
+        testRunTitle: 'Reporte Lote 3'
   - job: Lote4
     timeoutInMinutes: 60
     steps:
     - script: ant dev-deploy -f ${{ variables.appName }}/modules/ant/build.xml -Dpath=ic
     - script: ant unit-tests-batch4 -Dpath=ic -f ${{ variables.appName }}/modules/ant/continuous-build.xml
+    - task: PublishTestResults@2
+      inputs:
+        testResultsFormat: 'JUnit'
+        testResultsFiles: 'build/reports/unitarias/raw/batch4/*.xml'
+        testRunTitle: 'Reporte Lote 4'
   - job: Lote5
     timeoutInMinutes: 60
     steps:
     - script: ant dev-deploy -f ${{ variables.appName }}/modules/ant/build.xml -Dpath=ic
     - script: ant unit-tests-batch5 -Dpath=ic -f ${{ variables.appName }}/modules/ant/continuous-build.xml
-
+    - task: PublishTestResults@2
+      inputs:
+        testResultsFormat: 'JUnit'
+        testResultsFiles: 'build/reports/unitarias/raw/batch5/*.xml'
+        testRunTitle: 'Reporte Lote 5'
