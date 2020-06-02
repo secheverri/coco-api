@@ -1,6 +1,7 @@
 variables:
   # Configuraciones generales
   appName: PolicyCenter
+  label: ubuntu-16.04
   jdk_gw: Java 1.7
   jdk_ui: Java 1.8
   gradle: Gradle 4.6
