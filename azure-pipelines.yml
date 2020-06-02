@@ -18,24 +18,74 @@ variables:
 - name: label
 
 stages:
-- stage: Setup
+- stage: StaticAnalysis&Integrity
+  pool:
+    vmImage: ${{ variables.label }}
   jobs:
-  - job: SetAgent
+  - job: VerifyResources
+    timeoutInMinutes: 40
+    condition: and(succeeded(), ne(variables.appName, 'PolicyCenter'))
+    steps: 
+      - script: ant verify-resources -DmaxSPVInclusions=1000
+  - job: StaticAnalysisUnitTest
+    timeoutInMinutes: 40
     steps:
-    - script: ${{ if eq(variables.appName, "PolicyCenter") }}; then; label='SlavePR'
+    - script: ant sura.gosu-codenarc-test -Dpath=ic -f ${{ variables.appName }}/modules/ant/build.xml
+    - task: PublishTestResults@2
+      inputs:
+          testResultsFormat: 'JUnit'
+          testResultsFiles: 'build/reports/codenarc/html/*.html'
+  - job: JavaAPI
+    timeoutInMinutes: 40
+    steps:
+    - script: ant regen-java-api -Dpath=ic -f ${{ variables.appName }}/modules/ant/build.xml
+  - job: CodeAnalysis
+    timeoutInMinutes: 40
+    steps:
+    - script: ant code-analysis -Dpath=ic -f ${{ variables.appName }}/modules/ant/build.xml
+    - task: PublishTestResults@2
+      inputs:
+          testResultsFormat: 'JUnit'
+          testResultsFiles: 'build/reports/codenarc/html/*.html'
+  - job: SoapAPI
+    timeoutInMinutes: 40
+    steps:
+    - script: ant regen-soap-api -Dpath=ic -f ${{ variables.appName }}/modules/ant/build.xml
+  - job: StaticNamesAnalysis
+    timeoutInMinutes: 40
+    steps:
+    - script: ant sura.gosu-codenarc -Dpath=ic -f ${{ variables.appName }}/modules/ant/build.xml
+    - task: PublishTestResults@2
+      inputs:
+          testResultsFormat: 'JUnit'
+          testResultsFiles: 'build/reports/codenarc/html/*.html'
+
+
 - stage: UnitTest
   jobs:
   - job: Lote1
+    timeoutInMinutes: 60
     steps:
-    - script: echo $label; sleep 2; echovar="Prueba"
+    - script: ant dev-deploy -f ${{ variables.appName }}/modules/ant/build.xml -Dpath=ic
+    - script: ant unit-tests-batch1 -Dpath=ic -f ${{ variables.appName }}/modules/ant/continuous-build.xml
   - job: Lote2
+    timeoutInMinutes: 60
     steps:
-    - script: pwd; date; sleep 1
+    - script: ant dev-deploy -f ${{ variables.appName }}/modules/ant/build.xml -Dpath=ic
+    - script: ant unit-tests-batch2 -Dpath=ic -f ${{ variables.appName }}/modules/ant/continuous-build.xml
   - job: Lote3
+    timeoutInMinutes: 60
     steps:
-    - script: echo Lote 3!; sleep 1
-- stage: Deploy
-  jobs:
-  - job: Deploy
+    - script: ant dev-deploy -f ${{ variables.appName }}/modules/ant/build.xml -Dpath=ic
+    - script: ant unit-tests-batch3 -Dpath=ic -f ${{ variables.appName }}/modules/ant/continuous-build.xml
+  - job: Lote4
+    timeoutInMinutes: 60
     steps:
-    - script: echo $echovar
+    - script: ant dev-deploy -f ${{ variables.appName }}/modules/ant/build.xml -Dpath=ic
+    - script: ant unit-tests-batch4 -Dpath=ic -f ${{ variables.appName }}/modules/ant/continuous-build.xml
+  - job: Lote5
+    timeoutInMinutes: 60
+    steps:
+    - script: ant dev-deploy -f ${{ variables.appName }}/modules/ant/build.xml -Dpath=ic
+    - script: ant unit-tests-batch5 -Dpath=ic -f ${{ variables.appName }}/modules/ant/continuous-build.xml
+
